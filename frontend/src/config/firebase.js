@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -11,10 +11,13 @@ const firebaseConfig = {
   measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID
 };
 
+// init app
 const app = initializeApp(firebaseConfig);
 
 // gives us an auth instance
 const auth = getAuth(app);
 
-// in order to use this auth instance elsewhere
-export default auth;
+// google sign in provider init
+const provider = new GoogleAuthProvider()
+
+export { auth, provider };

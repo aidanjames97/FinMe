@@ -3,10 +3,11 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   updateProfile,
-  signOut
+  signOut,
+  signInWithPopup
 } from "firebase/auth";
 
-import auth from "../config/firebase";
+import  { auth, provider } from "../config/firebase";
 
 const AuthContext = createContext();
 
@@ -17,7 +18,10 @@ export function useAuth() {
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('')
+  const [error, setError] = useState('');
+  const [signInSuccess, setSignInSuccess] = useState(false);
+  const [signOutSuccess, setSignOutSuccess] = useState(false);
+  const [profileUpdateSuccess, setProfileUpdateSuccess] = useState(false);
 
   function register(email, password) {
     return createUserWithEmailAndPassword(auth, email, password);
@@ -27,12 +31,37 @@ export function AuthProvider({ children }) {
     return signInWithEmailAndPassword(auth, email, password);
   }
 
+  function loginGoogle() {
+    return signInWithPopup(auth, provider)
+  }
+
   function updateUserProfile(user, profile) {
     return updateProfile(user, profile);
   }
 
   function logout() {
     return signOut(auth)
+  }
+
+  function handleSignInSuccess() {
+    setSignInSuccess(true);
+    setTimeout(function() {
+      setSignInSuccess(false);
+    }, 3000);
+  }
+
+  function handleSignOutSuccess() {
+    setSignOutSuccess(true);
+    setTimeout(function() {
+      setSignOutSuccess(false);
+    }, 3000)
+  }
+
+  function handleProfileUpdateSuccess() {
+    setProfileUpdateSuccess(true)
+    setTimeout(function() {
+      setProfileUpdateSuccess(false);
+    }, 3000)
   }
 
   useEffect(() => {
@@ -46,12 +75,19 @@ export function AuthProvider({ children }) {
 
   const value = {
     currentUser,
-    login,
-    register,
     error,
     setError,
+    login,
+    register,
     updateUserProfile,
-    logout
+    logout,
+    loginGoogle,
+    signInSuccess, 
+    handleSignInSuccess,
+    handleSignOutSuccess,
+    signOutSuccess,
+    handleProfileUpdateSuccess,
+    profileUpdateSuccess
   };
 
   return (

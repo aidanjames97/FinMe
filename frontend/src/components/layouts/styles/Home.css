@@ -1,148 +1,123 @@
 html, body, button {
-    color: white;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-  }
+  color: white;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+}
   
-  .sliding-div{
-    position: fixed;
-    top: 140px;
-    right: -255px;
-    width: 250px;
-    height: 50px;
-    background: #7950F2;
-    border: 1px solid;
-    border-radius: 5px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: transform 0.5s ease;
-    z-index: 900;
+.scroll-element {
+  opacity: 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: calc(100dvh - 75px);
+}
+.scroll-element.visible {
+  transition: opacity ease-in .5s;
+  opacity: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: calc(100dvh - 75px);
+}
+
+/* for when component has no info to display */
+.no-info {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.no-info > h1 {
+  margin: 5px;
+}
+.no-info-button {
+  transition: ease-in .2s;
+  background: transparent;
+  padding: 5px 10px;
+  border: 1px solid rgba(173, 216, 230, 0.2);
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 500;
+}
+.no-info-button:hover {
+  transition: ease-in .2s;
+  background: rgba(173, 216, 230, 0.1);
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.to-top-button {
+  position: fixed;
+  bottom: 10dvh;
+  right: 3dvw;
+  background: #7950F2;
+  border-radius: 5px;
+  width: 40px;
+  height: 40px;
+}
+
+.menu-button-helper-wrapper {
+  position: fixed;
+  top: 50px;
+  right: 7dvw;
+  width: 130px;
+  height: 50px;
+  z-index: 999;
+}
+.helper-arrow-wrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+  rotate: 225deg;
+  width: 25px;
+  height: 15px;
+  animation: bouncing ease-in-out 1s infinite;
+}
+@keyframes bouncing {
+  0%, 100% {
+    transform: translateX(0);
+    transform: translateY(0);
   }
-  .sliding-div > h1 {
-    font-size: 22px;
+  50% {
+    transform: translateX(5px);
+    transform: translateY(5px);
   }
-  .slide-in {
-    transform: translateX(-250px);
-  }
-  .slide-out {
-    transform: translateX(0px);
-  }
-  
-  .scroll-element {
-    opacity: 0;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    height: calc(100dvh - 75px);
-  }
-  .scroll-element.visible {
-    transition: opacity ease-in .5s;
-    opacity: 1;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    height: calc(100dvh - 75px);
-  }
-  
-  /* for when component has no info to display */
-  .no-info {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  .no-info > h1 {
-    margin: 5px;
-  }
-  .no-info-button {
-    transition: ease-in .2s;
-    background: transparent;
-    padding: 5px 10px;
-    border: 1px solid rgba(173, 216, 230, 0.2);
-    border-radius: 5px;
-    font-size: 16px;
-    font-weight: 500;
-  }
-  .no-info-button:hover {
-    transition: ease-in .2s;
-    background: rgba(173, 216, 230, 0.1);
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .to-top-button {
-    position: fixed;
-    bottom: 10dvh;
-    right: 3dvw;
-    background: #7950F2;
-    border-radius: 5px;
-    width: 40px;
-    height: 40px;
-  }
-  
+}
+
+.helper-arrow-wrapper > img {
+  width: 100%;
+  height: 100%;
+}
+.helper-word {
+  position: absolute;
+  top: 7px;
+  right: 17px;
+}
+.helper-word > h1 {
+  font-size: 16px;
+  font-weight: 400;
+  color: #7950F2;
+}
+
+@media (max-width: 800px) {
   .menu-button-helper-wrapper {
-    position: fixed;
-    top: 50px;
-    right: 7dvw;
-    width: 130px;
-    height: 50px;
-    z-index: 999;
+    right: 12dvw;
+  }
+}
+
+@media (max-width: 400px) {
+  .menu-button-helper-wrapper {
+    right: 17dvw;
   }
   .helper-arrow-wrapper {
-    position: absolute;
-    top: 0;
-    right: 0;
-    rotate: 225deg;
-    width: 25px;
-    height: 15px;
-    animation: bouncing ease-in-out 1s infinite;
-  }
-  @keyframes bouncing {
-    0%, 100% {
-      transform: translateX(0);
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateX(5px);
-      transform: translateY(5px);
-    }
-  }
-  
-  .helper-arrow-wrapper > img {
-    width: 100%;
-    height: 100%;
-  }
-  .helper-word {
-    position: absolute;
-    top: 7px;
-    right: 17px;
+    width: 18px;
+    height: 11px;
   }
   .helper-word > h1 {
-    font-size: 16px;
-    font-weight: 400;
-    color: #7950F2;
+    font-size: 13px;
   }
-  
-  @media (max-width: 800px) {
-    .menu-button-helper-wrapper {
-      right: 12dvw;
-    }
-  }
-  
-  @media (max-width: 400px) {
-    .menu-button-helper-wrapper {
-      right: 17dvw;
-    }
-    .helper-arrow-wrapper {
-      width: 18px;
-      height: 11px;
-    }
-    .helper-word > h1 {
-      font-size: 13px;
-    }
-  }
+}
   
   /* --- user not signed in yet (welcome page) --- */
 .App-welcome-before{
@@ -155,7 +130,7 @@ html, body, button {
   width: 100dvw;
   z-index: 10;
   position: absolute;
-  background-image: url('../../images/backMesh.png');
+  background-image: url('../../../images/backMesh.png');
   background-size: 150%;
   background-position: center;
   background-repeat: no-repeat;
@@ -271,36 +246,36 @@ html, body, button {
   
   @keyframes logoAnimation {
     0%, 100% {
-      width: 75%;
-      rotate: 0deg;
+      width: 50%;
+      rotate: -45deg;
     }
     10% {
-      width: 75%;
-      rotate: 360deg;
+      width: 50%;
+      rotate: 325deg;
     }
     30% {
-      width: 75%;
-      rotate: 360deg;
+      width: 50%;
+      rotate: 325deg;
     }
     50% {
-      width: 70%;
-      rotate: 360deg;
+      width: 45%;
+      rotate: 325deg;
     }
     60% {
-      width: 70%;
-      rotate: 360deg;
+      width: 45%;
+      rotate: 325deg;
     }
     70% {
-      width: 70%;
-      rotate: 0deg;
+      width: 45%;
+      rotate: -45deg;
     }
     80% {
-      width: 70%;
-      rotate: 0deg;
+      width: 45%;
+      rotate: -45deg;
     }
     90% {
-      width: 75%;
-      rotate: 0deg;
+      width: 50%;
+      rotate: -45deg;
     }
   }
   
@@ -336,7 +311,7 @@ html, body, button {
     height: 35px;
     margin-top: 20px;
     margin-bottom: 5px;
-    z-index: 10;
+    z-index: 5;
   }
   
   .explore-button {
@@ -347,7 +322,7 @@ html, body, button {
     border-radius: 5px;
     font-size: 18px;
     font-weight: 600;
-    background: #7950F2;
+    background: rgb(124 58 237);
     justify-content: center;
     align-items: center;
     border: 2px solid white;
@@ -377,36 +352,36 @@ html, body, button {
     }
     @keyframes logoAnimation {
       0%, 100% {
-        width: 30%;
-        rotate: 0deg;
+        width: 20%;
+        rotate: -45deg;
       }
       10% {
-        width: 30%;
-        rotate: 360deg;
+        width: 20%;
+        rotate: 325deg;
       }
       30% {
-        width: 30%;
-        rotate: 360deg;
+        width: 20%;
+        rotate: 325deg;
       }
       50% {
-        width: 28%;
-        rotate: 360deg;
+        width: 18%;
+        rotate: 325deg;
       }
       60% {
-        width: 28%;
-        rotate: 360deg;
+        width: 18%;
+        rotate: 325deg;
       }
       70% {
-        width: 28%;
-        rotate: 0deg;
+        width: 20%;
+        rotate: 325deg;
       }
       80% {
-        width: 28%;
-        rotate: 0deg;
+        width: 20%;
+        rotate: 325deg;
       }
       90% {
-        width: 30%;
-        rotate: 0deg;
+        width: 20%;
+        rotate: -45deg;
       }
     }
     .about-text {
@@ -442,7 +417,7 @@ html, body, button {
     display: flex;
     align-items: center;
     justify-content: right;
-    background-image: url('../../images/backWavy.png');
+    background-image: url('../../../images/backWavy.png');
     background-size: 150%;
     background-position: center;
     background-repeat: no-repeat;
@@ -546,7 +521,7 @@ html, body, button {
   }
   .services-left-graphic > img {
     width: 50%;
-    z-index: 10;
+    z-index: 2;
   }
   
   @media (max-width: 800px) {
@@ -589,7 +564,7 @@ html, body, button {
   .welcome-footer {
     width: 100%;
     height: 75px;
-    background: #7950F2;
+    background: rgb(124 58 237);
     display: flex;
     align-items: center;
   }
@@ -603,8 +578,9 @@ html, body, button {
     justify-content: space-between;
   }
   .footer-img {
-    height: 60px;
-    filter: grayscale(100%) brightness(1000);
+    height: 54px;
+    padding: 4px;
+    background-color: #111827;
   }
   .footer-img:hover {
     cursor: pointer;
@@ -632,7 +608,7 @@ html, body, button {
   }
   .footer-left-icon {
     width: 30px;
-    height: 30px;
+    height: 28px;
     margin: 0 10px;
     display: flex;
     justify-content: center;
@@ -670,7 +646,7 @@ html, body, button {
     }
     .footer-left-icons-container {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: 8px;
     }
     .footer-left-icon {

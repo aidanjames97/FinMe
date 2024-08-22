@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-scroll'
 import { NavLink as RouterLink} from 'react-router-dom'
 import Header from './Header';
-import sLine from "../../images/goeLogo.png"
+import fmLogo from "../../images/fm.png"
 import ReactLogo from "../../images/react.png"
 import FireLogo from "../../images/firebase.png"
 import AxiosLogo from "../../images/axios.png"
@@ -12,12 +12,15 @@ import ChartPlat from "../../images/chartPlat.png"
 import Flaticon from "../../images/flaticon.png"
 import Hexagon from "../../images/hexagon.png"
 import Tailwind from "../../images/tailwind.png"
+import FinnhubLogo from "../../images/finLogo.png"
 
-import './App.css';
+import { useAuth } from "../../contexts/AuthContext"
+
+import './styles/Home.css';
 
 function Home() {
-  const [menuHint, setMenuHint] = useState(false)
   const [outText, setOutText] = useState('plat') // for services to display different graphs
+  const [currentlyViewing, setCurrentlyViewing] = useState('home'); // which section user is viewing
   // wheither section has been viewed or not
   const [sectionViewed, setSectionViewed] = useState({
     home: true,
@@ -25,12 +28,15 @@ function Home() {
     services: false,
   });
 
+  const { setError } = useAuth();
+
   useEffect(() => {
     const sections = ['home', 'about', 'services'];
 
     const handleIntersection = (entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
+          setCurrentlyViewing(entry.target.id)
           setSectionViewed(prevState => ({
             ...prevState,
             [entry.target.id]: true
@@ -59,31 +65,42 @@ function Home() {
 
   // to store each section which has been viewed
   useEffect(() => {
-    localStorage.setItem('sectionViewed', JSON.stringify(sectionViewed));
-  }, [sectionViewed]);
+    try {
+      localStorage.setItem('sectionViewed', JSON.stringify(sectionViewed));
+    } catch (e) {
+      setError("Error stringifing JSON data")
+    }
+  }, [sectionViewed, setError]);
 
   // reading which sections have been viewed
   useEffect(() => {
-    const storedSectionViewed = JSON.parse(localStorage.getItem('sectionViewed'));
-    if (storedSectionViewed) {
-      setSectionViewed(storedSectionViewed);
+    try {
+      const storedSectionViewed = JSON.parse(localStorage.getItem('sectionViewed'));
+      if (storedSectionViewed) {
+        setSectionViewed(storedSectionViewed);
+      }
+    } catch (e) {
+      setError("Error parsing JSON data")
     }
-  }, []);
+  }, [setError]);
 
   // simulated delay so page appears to load and fade in
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      setIsLoaded(true);
-      setMenuHint(true)
-    }, 1); // 1ms delay (can be increaed to simulate loading)
-
-    return () => clearTimeout(timeout);
-  }, []);
+    try {
+      const timeout = setTimeout(() => {
+        setIsLoaded(true);
+      }, 1); // 1ms delay (can be increaed to simulate loading)
+  
+      return () => clearTimeout(timeout);
+    } catch (e) {
+      setError("Error fading in page")
+    }
+  }, [setError]);
 
 return (
   <div className={`App-welcome-before ${isLoaded ? 'App-welcome' : ''}`}>
-    <Header />
+    <Header viewing={currentlyViewing}/>
     <Section id='home' isViewed={sectionViewed.home}>
       <div className='welcome-items-container'>
       <div className='welcome-items'>
@@ -106,7 +123,7 @@ return (
     <Section id='about' isViewed={sectionViewed.about}>
       <div className='welcome-about'>
       <div className='about-right-icon'>
-        <img className='logo' src={sLine} alt='logo' />
+        <img className='logo' src={fmLogo} alt='logo' />
         <img className='hexagon' src={Hexagon} alt='hexagon' />
       </div>
       <div className='about-text'>
@@ -213,6 +230,9 @@ return (
             <a href='https://tailwindcss.com/' className='footer-left-icon'>
               <img src={Tailwind} alt='tailwind' />
             </a>
+            <a href='https://finnhub.io/' className='footer-left-icon'>
+              <img src={FinnhubLogo} alt='finnhub' />
+            </a>
           </div>
         </div>
 
@@ -222,7 +242,7 @@ return (
           duration={500} // 500ms
           offset={-75}
         >
-          <img className='footer-img' src={sLine} alt='logo' />
+          <img className='footer-img' src={fmLogo} alt='logo' />
         </Link>
 
         <div className='footer-right'>
